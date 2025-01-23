@@ -1,4 +1,5 @@
 ﻿using test.IRepositories;
+using test.IRepository;
 using test.Repositories;
 using test.Services;
 
@@ -17,6 +18,7 @@ namespace test.Extensions
             // inject dependenacy
 
             services.AddScoped<TokenService>();
+            services.AddScoped<ICompaniesInfoRepository, CompaniesInfoRepository>();
             services.AddHttpClient(); // Register HttpClientFactory
 
             // Repository
