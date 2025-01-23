@@ -46,6 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseJwt();
+app.UseException();
 
 app.UseAuthorization();
 
