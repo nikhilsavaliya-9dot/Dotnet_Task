@@ -10,6 +10,7 @@ using test.IRepository;
 using test.Models;
 using test.ViewModel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using test.ViewModel.Pagination;
 
 namespace test.Repositories
 {
@@ -89,19 +90,25 @@ namespace test.Repositories
             company.YouTubeUrl = entity.YouTubeUrl;
         }
 
-        public async Task<BaseResponseModel<IEnumerable<CompanyInfoVM>>> GetAllCompany()
+        public async Task<BaseResponseModel<IEnumerable<CompanyInfoVM>>> GetAllCompany(Pagination entity)
         {
             try
             {
-                var companies = _dbContext.CompanyInfo.AsNoTracking()
-                    .Select(MapToViewModel).ToList();
+                var query = _dbContext.CompanyInfo.AsNoTracking().Select(MapToViewModel);
+
+                var totalRecords = query.ToList().Count;
+
+                var companies = query
+                    .Skip((entity.PageNumber - 1) * entity.PageSize)
+                    .Take(entity.PageSize)
+                    .ToList();
 
                 return new BaseResponseModel<IEnumerable<CompanyInfoVM>>
                 {
                     Success = true,
                     Message = ResponseMessage.DataRetrieved,
                     Data = companies,
-                    TotalRecords = companies.Count()
+                    TotalRecords = totalRecords
                 };
             }
             catch (Exception)

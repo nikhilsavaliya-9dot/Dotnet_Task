@@ -4,6 +4,7 @@ using test.Helpers;
 using test.IRepository;
 using test.Models;
 using test.ViewModel;
+using test.ViewModel.Pagination;
 
 
 namespace test.Controllers
@@ -22,9 +23,9 @@ namespace test.Controllers
 
         [HttpGet]
         [Route("companies/get-all-companyInfo")]
-        public async Task<IActionResult> GetAllcompany()
+        public async Task<IActionResult> GetAllcompany([FromQuery] Pagination pagination)
         {
-            var result = await _companiesInfoRepository.GetAllCompany();
+            var result = await _companiesInfoRepository.GetAllCompany(pagination);
             return Ok(result);
         }
 
