@@ -43,13 +43,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandling();
 }
 
 app.UseHttpsRedirection();
 app.UseJwt();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
